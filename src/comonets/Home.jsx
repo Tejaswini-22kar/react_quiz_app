@@ -4,11 +4,13 @@ const Home = () => {
   const navigate = useNavigate();
 
   const handleQuizStart = () => {
-    const user = localStorage.getItem("users"); // Check if user exists
+    const user = JSON.parse(localStorage.getItem("user")); // Check if user is logged in
+
     if (user) {
-      navigate("/quiz"); // Go to Quiz Page if user is logged in
+      navigate("/quiz"); // Redirect to quiz page
     } else {
-      navigate("/login"); // Redirect to Login Page if user is not logged in
+       
+      navigate("/login"); // Redirect to login page
     }
   };
 
@@ -17,7 +19,7 @@ const Home = () => {
       <h1>Welcome to the Quiz</h1>
       <p>Test your knowledge and have fun!</p>
       <button onClick={handleQuizStart}>Start Quiz</button>
-      
+
     </div>
   );
 };
