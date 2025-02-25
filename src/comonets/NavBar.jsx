@@ -1,12 +1,32 @@
-import React from "react";
-import { Link, Routes, Route } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { Link, Routes, Route, useNavigate } from "react-router-dom";
 import SignIn from "./auth/SignIn";
 import SignUp from "./auth/SignUp";
 import Quiz from "./Quiz";
 import Home from "./Home";
 
-
 function NavBar() {
+  const [isLoggedIn, setIsLoggedIn] = useState(!!localStorage.getItem("user"));
+  const navigate = useNavigate(); 
+
+  useEffect(() => {
+    const handleStorageChange = () => {
+      setIsLoggedIn(!!localStorage.getItem("user"));
+    };
+
+    window.addEventListener("storage", handleStorageChange);
+    
+    return () => {
+      window.removeEventListener("storage", handleStorageChange);
+    };
+  }, []);
+
+  const handleLogout = () => {
+    localStorage.removeItem("user"); 
+    setIsLoggedIn(false);
+    navigate("/"); 
+  };
+
   return (
     <>
       <nav className="navbar navbar-expand-lg navbar-light bg-light">
@@ -28,53 +48,39 @@ function NavBar() {
           <div className="collapse navbar-collapse" id="navbarSupportedContent">
             <ul className="navbar-nav me-auto mb-2 mb-lg-0">
               <li className="nav-item">
-              <Link to="/" className="nav-link">
-                  home
-                </Link>
+                <Link to="/" className="nav-link">Home</Link>
               </li>
               <li className="nav-item">
-                <a className="nav-link" href="#">
-                  About
-                </a>
+                <a className="nav-link" href="#">About</a>
               </li>
               <li className="nav-item">
-                <a className="nav-link" href="#">
-                  Contact
-                </a>
+                <a className="nav-link" href="#">Contact</a>
               </li>
-              <li className="nav-item">
-                <Link to="/login" className="nav-link">
-                  Login
-                </Link>
-              </li>
-              <li className="nav-item">
-                <Link to="/register" className="nav-link">
-                  Sign Up
-                </Link>
-              </li>
+
+              {!isLoggedIn ? (
+                <>
+                  <li className="nav-item">
+                    <Link to="/login" className="nav-link">Login</Link>
+                  </li>
+                  <li className="nav-item">
+                    <Link to="/register" className="nav-link">Sign Up</Link>
+                  </li>
+                </>
+              ) : (
+                <li className="nav-item">
+                  <button className="btn btn-danger" onClick={handleLogout}>Logout</button>
+                </li>
+              )}
             </ul>
-            <form className="d-flex">
-              <input
-                className="form-control me-2"
-                type="search"
-                placeholder="Search"
-                aria-label="Search"
-              />
-              <button className="btn btn-outline-success" type="submit">
-                Search
-              </button>
-            </form>
           </div>
         </div>
       </nav>
 
-      {/* Corrected Route setup */}
       <Routes>
-        <Route path="/login" element={<SignIn />} />
-        <Route path="/register" element={<SignUp/>} />
-        <Route path="/quiz" element={<Quiz/>} />
-        <Route path="/" element={<Home/>} />
-       
+        <Route path="/login" element={<SignIn setIsLoggedIn={setIsLoggedIn} />} />
+        <Route path="/register" element={<SignUp />} />
+        <Route path="/quiz" element={<Quiz />} />
+        <Route path="/" element={<Home />} />
       </Routes>
     </>
   );
