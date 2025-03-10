@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate  , Link} from "react-router-dom";
 
 function SignIn({ setIsLoggedIn }) {
   const navigate = useNavigate();
@@ -73,6 +73,9 @@ function SignIn({ setIsLoggedIn }) {
           <button type="submit" className="btn btn-primary w-100">Sign In</button>
           <div className="text-center mt-3">
             <a href="#">Forgot password?</a>
+          </div>
+          <div className="text-center mt-3">
+            <p>Create new account <Link to="/register">Register</Link></p>
           </div>
         </form>
       </div>

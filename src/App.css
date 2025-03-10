@@ -36,3 +36,10 @@
     transform: rotate(360deg);
   }
 }
+.sign-up-container , .sign-in-container {
+  width: 42%;
+  margin: 47px auto;
+  padding: 29px;
+  box-shadow: 0px 0px 32px 0px grey;
+  border-radius: 10px;
+}

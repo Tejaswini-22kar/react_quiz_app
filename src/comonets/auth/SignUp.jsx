@@ -151,7 +151,7 @@ function SignUp() {
 
           <button type="submit" className="btn btn-primary w-100">Sign Up</button>
           <div className="text-center mt-3">
-            <p>Already have an account? <Link to="/signin">Login</Link></p>
+            <p>Already have an account? <Link to="/login">Login</Link></p>
           </div>
         </form>
       </div>
